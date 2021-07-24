@@ -2,20 +2,19 @@ import React, {Fragment} from "react";
 
 import {Route} from "react-router-dom";
 import Dashboard from "./Dashboard";
-
-import AppHeader from "../../Layout/AppHeader/index";
-
+import AddNewMember from "./Dashboard/tambah";
+import UbahDataMember from "./Dashboard/ubah";
 
 const Homepage = ({match}) => (
 
     <Fragment>
-        <AppHeader/>
-
         <div className="app-main">
 
             <div className="app-main__inner">
                 <>
-                    <Route path={`${match.url}/dashboard`} component={Dashboard}/>
+                    <Route path={`${match.url}/karyawanindex`} component={Dashboard}/>
+                    <Route path={`${match.url}/karyawanadd`} component={AddNewMember} />
+                    <Route path={`${match.url}/karyawanedit`} component={UbahDataMember} />
                 </>
             </div>
         </div>

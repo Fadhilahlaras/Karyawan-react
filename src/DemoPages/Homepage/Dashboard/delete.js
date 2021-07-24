@@ -15,10 +15,10 @@ const Delete = (props) => {
         <>
             <span className="d-inline-block mb-2 mr-2">
                  <Modal isOpen={props.modal} toggle={props.toggle}>
-                        <ModalHeader toggle={props.toggle}>Delete Confirmation</ModalHeader>
+                        <ModalHeader toggle={props.toggle}>Konfirmasi</ModalHeader>
                         <ModalBody>
                             <div>
-                                <h6>Are you sure you want to delete this data?</h6>
+                                <h6>Apakah anda akan menghapus data ini ?</h6>
                             </div>
                         </ModalBody>
                         <ModalFooter>

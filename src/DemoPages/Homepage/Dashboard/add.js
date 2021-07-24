@@ -1,16 +1,15 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import axios from "axios";
-
+import Select from "react-select";
 import {Button, Form, FormGroup, Input, Label, Modal, ModalBody, ModalFooter, ModalHeader} from "reactstrap";
 
 const AddMember = (props) => {
-    const [name, setName] = useState(null)
-    const [address, setAddress] = useState(null)
-    const [pbirth, setPbirth] = useState(null)
-    const [bdate, setBdate] = useState(null)
-    const [religion, setReligion] = useState(null)
-    const [email, setEmail] = useState(null)
-    const [note, setNote] = useState(null)
+    const [nama, setNama] = useState(null)
+    const [tanggalLahir, setTanggalLahir] = useState(null)
+    const [selectOptions, setSelectOptions] = useState([]);
+    const [idJabatan, setIdJabatan] = useState(null)
+    const [nip, setNip] = useState(null)
+    const [jenisKelamin, setJenisKelamin] = useState(null)
     const [picture, setPicture] = useState();
     const [img, setImg] = useState()
 
@@ -20,13 +19,11 @@ const AddMember = (props) => {
 
         {/*A method to converts a JavaScript object or value to a JSON string*/}
         const json = JSON.stringify({
-            "name": name,
-            "address":  address,
-            "pbirth": pbirth,
-            "bdate": bdate,
-            "religion": religion,
-            "email": email,
-            "note": note,
+            "nama": nama,
+            "tanggalLahir":  tanggalLahir,
+            "idJabatan": idJabatan,
+            "nip": nip,
+            "jenisKelamin": jenisKelamin,
         });
 
 
@@ -35,7 +32,6 @@ const AddMember = (props) => {
             type: 'application/json'
         });
 
-        formData.append('pictureUrl', picture)
         formData.append('data', blobDoc)
 
         const config = {
@@ -58,6 +54,30 @@ const AddMember = (props) => {
         setPicture(e.target.files[0])
     }
 
+    const getOptions = () => {
+        console.log("why im not around")
+        axios.get('http://localhost:1717/api/jabatancategory', {
+            headers: {'Content-Type': 'application/json'}
+        }).then(res => {
+            const data = res.data;
+            const options = data.map(d => ({
+                "value": d.id,
+                "label": d.jabatanName
+
+            }));
+            setSelectOptions(options)
+        })
+
+        console.log(selectOptions)
+    }
+
+    // const tampil = () =>{props.tampil}
+
+    useEffect(() => {
+        getOptions();
+    }, [])
+
+
     return (
         <>
             <span className="d-inline-block mb-2 mr-2">
@@ -66,65 +86,52 @@ const AddMember = (props) => {
                         <ModalBody>
                             <Form>
                                              <FormGroup>
-                                                        <Label>Name</Label>
-                                                        <Input type="text" name="name" id="name"
-                                                               placeholder="Name" onChange={(e) => {
-                                                            setName(e.target.value)
+                                                        <Label>Nama</Label>
+                                                        <Input type="text" name="nama" id="nama"
+                                                               placeholder="Nama" onChange={(e) => {
+                                                            setNama(e.target.value)
                                                         }}/>
                                                     </FormGroup>
 
                                                     <FormGroup>
-                                                        <Label>Address</Label>
-                                                        <Input type="textarea" name="address" id="address"
-                                                               placeholder="Address"  onChange={(e) => {
-                                                            setAddress(e.target.value)
+                                                        <Label>Tanggal Lahir</Label>
+                                                        <Input type="date" name="tanggalLahir" id="tanggalLahir" onChange={(e) => {
+                                                            setTanggalLahir(e.target.value)
                                                         }}/>
                                                     </FormGroup>
 
                                                     <FormGroup>
-                                                        <Label>Place of Birth</Label>
-                                                        <Input type="text" name="pbirth" id="pbirth"
-                                                               placeholder="Place of Birth" onChange={(e) => {
-                                                            setPbirth(e.target.value)
-                                                        }}/>
-                                                    </FormGroup>
-
-                                                    <FormGroup>
-                                                        <Label>Date of Birth</Label>
-                                                        <Input type="date" name="bdate" id="bdate" onChange={(e) => {
-                                                            setBdate(e.target.value)
-                                                        }}/>
+                                                        <Label for="jabatan">Jabatan</Label>
+                                                        <Select name="idJabatan" id="idJabatan"
+                                                                options={selectOptions}
+                                                            // onChange={handleChangeSelect.bind(this)}
+                                                                onChange={(e) => {
+                                                                    setIdJabatan(e.value)
+                                                                }}
+                                                        />
                                                     </FormGroup>
 
 
                                                     <FormGroup>
-                                                        <Label for="religion">Religion</Label>
-                                                        <Input type="select" name="religion" id="religion" onChange={(e) => {
-                                                            setReligion(e.target.value)
+                                                        <Label for="nip">Jabatan</Label>
+                                                        <Input type="number" name="nip" id="nip"
+                                                               placeholder="Input your NIP" onChange={(e) => {
+                                                            setNip(e.target.value)
+                                                        }}/>
+                                                    </FormGroup>
+
+
+                                                    <FormGroup>
+                                                        <Label for="jenisKelamin">Jenis Kelamin</Label>
+                                                        <Input type="select" name="jenisKelamin" id="jenisKelamin" onChange={(e) => {
+                                                            setJenisKelamin(e.target.value)
                                                         }}>
                                                             <option></option>
-                                                            <option>Islam</option>
-                                                            <option>Christen</option>
-                                                            <option>Chatolic</option>
-                                                            <option>Budha</option>
-                                                            <option>Hindu</option>
+                                                            <option>Pria</option>
+                                                            <option>Wanita</option>
                                                         </Input>
                                                     </FormGroup>
-                                                    <FormGroup>
-                                                        <Label for="email">Email</Label>
-                                                        <Input type="email" name="email" id="email"
-                                                               placeholder="Input your email" onChange={(e) => {
-                                                            setEmail(e.target.value)
-                                                        }}/>
-                                                    </FormGroup>
 
-
-                                                    <FormGroup>
-                                                        <Label>Note</Label>
-                                                        <Input type="textarea" name="note" id="note" onChange={(e) => {
-                                                            setNote(e.target.value)
-                                                        }}/>
-                                                    </FormGroup>
 
                                                     <FormGroup>
                                                         <Label>Upload Your Photo</Label>
@@ -137,8 +144,6 @@ const AddMember = (props) => {
                                                         <div style={{display:"flex", justifyContent:"center", marginTop:"20px"}}>
                                                          <img src={img} style={{width:"100%"}}/></div>
                                                     </FormGroup>
-
-
 
                                         </Form>
                         </ModalBody>
