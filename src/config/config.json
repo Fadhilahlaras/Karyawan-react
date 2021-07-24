@@ -1,0 +1,10 @@
+{
+    "App": {
+      "NAME": "FMS",
+      "VERSION": "cache-control",
+      "DEVELOPMENT": true
+    },
+    "SERVICE": {
+      "DATABASE":"http://localhost:1717"
+    }
+  }

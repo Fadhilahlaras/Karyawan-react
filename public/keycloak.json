@@ -1,0 +1,12 @@
+{
+  "realm": "daily",
+  "auth-server-url": "http://localhost:8080/auth",
+  "ssl-required": "external",
+  "resource": "dailyyou-client",
+  "credentials": {
+    "secret": "d1e187a1-10b1-4e03-b312-735d2c2f396e"
+  },
+  "confidential-port": 0,
+  "use-resource-role-mappings": true,
+  "berarer-only": true
+}
